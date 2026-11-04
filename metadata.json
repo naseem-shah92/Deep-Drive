@@ -1,0 +1,6 @@
+{
+  "name": "Deep Dive Australia | Explore the Depths",
+  "description": "Ultra-luxury, cinematic scuba diving expeditions across Australia's most spectacular reefs, wrecks, and open ocean.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
