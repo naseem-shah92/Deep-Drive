@@ -1,0 +1,28 @@
+/* High-End Editorial Oceanic Atmosphere & Organic Lighting */
+
+@keyframes floatParticle {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translateY(-24px) translateX(8px);
+    opacity: 0.6;
+  }
+}
+
+/* Subtle water light refraction */
+.water-caustics {
+  background: radial-gradient(ellipse at 50% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 70%);
+  mix-blend-mode: screen;
+}
+
+/* UV Mode Fluorescent Filter (Restrained & organic) */
+.uv-bioluminescence {
+  filter: hue-rotate(190deg) saturate(180%) contrast(120%) brightness(105%);
+}
+
+/* Restrained Warm Glow */
+.text-glow-sand {
+  text-shadow: 0 0 20px rgba(229, 200, 144, 0.3);
+}

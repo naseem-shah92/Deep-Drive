@@ -1,22 +1,24 @@
 import React, { useState } from 'react';
-import { Navbar } from './components/Navbar';
-import { CustomCursor } from './components/CustomCursor';
-import { HeroSection } from './components/HeroSection';
-import { ExpeditionsSection } from './components/ExpeditionsSection';
-import { ExpeditionModal } from './components/ExpeditionModal';
-import { ConditionsCalendarSection } from './components/ConditionsCalendarSection';
-import { SafetyFleetSection } from './components/SafetyFleetSection';
-import { EquipmentSection } from './components/EquipmentSection';
-import { LogbookGallerySection } from './components/LogbookGallerySection';
-import { ContactFooterSection } from './components/ContactFooterSection';
-import { Preloader } from './components/Preloader';
-import { Expedition, GearItem } from './data/diveData';
+import { Navbar } from './components/layout/Navbar';
+import { CustomCursor } from './components/common/CustomCursor';
+import { DepthGauge } from './components/common/DepthGauge';
+import { Preloader } from './components/common/Preloader';
+import { HeroSection } from './components/hero/HeroSection';
+import { ExpeditionsSection } from './components/expeditions/ExpeditionsSection';
+import { ExpeditionModal } from './components/expeditions/ExpeditionModal';
+import { ConditionsCalendarSection } from './components/conditions/ConditionsCalendarSection';
+import { SafetyFleetSection } from './components/safety/SafetyFleetSection';
+import { EquipmentSection } from './components/equipment/EquipmentSection';
+import { LogbookGallerySection } from './components/logbook/LogbookGallerySection';
+import { ContactFooterSection } from './components/contact/ContactFooterSection';
+import { Expedition } from './types/expedition';
+import { GearItem } from './types/gear';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [selectedExpedition, setSelectedExpedition] = useState<Expedition | null>(null);
 
-  // Pre-filled state for the Contact / Booking form
+  // Pre-filled state for the Contact / VIP Booking form
   const [contactInitialExpedition, setContactInitialExpedition] = useState<string>('');
   const [contactInitialDate, setContactInitialDate] = useState<string>('');
   const [contactRentalSummary, setContactRentalSummary] = useState<string>('');
@@ -54,46 +56,49 @@ export default function App() {
     const gearList = items
       .map((i) => `• ${i.item.name} (${i.days} days: $${i.item.dailyAUD * i.days} AUD)`)
       .join('\n');
-    const summary = `Requested Rental Equipment (Total: $${totalAUD.toLocaleString()} AUD):\n${gearList}\n\nPlease prepare and calibrate this kit for my expedition.`;
+    const summary = `Requested Equipment Kit (Total: $${totalAUD.toLocaleString()} AUD):\n${gearList}\n\nPlease prepare this kit for my arrival.`;
     setContactRentalSummary(summary);
     scrollToContact();
   };
 
   return (
-    <div className="min-h-screen bg-[#050E1D] text-[#DCE6E9] font-sans selection:bg-[#00A5B4]/30 selection:text-white">
-      {/* Preloader with pulsing logomark bubble */}
+    <div className="min-h-screen bg-[#070D18] text-[#E2E8F0] font-sans selection:bg-[#E5C890]/25 selection:text-white">
+      {/* Editorial Entrance Preloader */}
       {loading && <Preloader onComplete={() => setLoading(false)} />}
 
-      {/* Custom Torch Beam Cursor (desktop only) */}
+      {/* Understated Custom Cursor */}
       <CustomCursor />
 
-      {/* Global Navigation Bar */}
+      {/* Vertical Ocean Depth Gauge HUD (0m to 150m) */}
+      <DepthGauge />
+
+      {/* Navigation Header */}
       <Navbar onBookClick={scrollToContact} />
 
-      {/* Main Page Sections */}
+      {/* Main Experience Flow */}
       <main>
-        {/* SECTION 1: Cinematic Hero with Mouse-Driven Flashlight Reveal */}
+        {/* Section 1: Hero with Torch / Flood / UV Biolum Modes */}
         <HeroSection
           onExploreClick={scrollToExpeditions}
           onPlanClick={scrollToContact}
         />
 
-        {/* SECTION 2: Featured Expeditions & Signature Dives */}
+        {/* Section 2: Signature Expeditions Editorial Cards */}
         <ExpeditionsSection onSelectExpedition={setSelectedExpedition} />
 
-        {/* SECTION 3: Real-Time Conditions & Interactive Dive Calendar */}
+        {/* Section 3: Live Oceanic Telemetry & Calendar */}
         <ConditionsCalendarSection onReserveTrip={handleReserveTrip} />
 
-        {/* SECTION 4: Safety Standards, Fleet Breakdown & Depth Gauge */}
+        {/* Section 4: Safety Protocols & Blue Water Fleet */}
         <SafetyFleetSection />
 
-        {/* SECTION 5: Precision Gear & Interactive Rental Calculator */}
+        {/* Section 5: Precision Life Support Gear & Calculator */}
         <EquipmentSection onSendRentalRequest={handleSendRentalRequest} />
 
-        {/* SECTION 6: Interactive Gallery & Authentic Logbook */}
+        {/* Section 6: Authentic Field Journal Logbook & Lightbox */}
         <LogbookGallerySection />
 
-        {/* SECTION 7: Direct Concierge Inquiries & Global Footer */}
+        {/* Section 7: VIP Concierge Booking Dossier & Footer */}
         <ContactFooterSection
           initialExpedition={contactInitialExpedition}
           initialDate={contactInitialDate}
@@ -101,7 +106,7 @@ export default function App() {
         />
       </main>
 
-      {/* Detailed Expedition Modal */}
+      {/* Expedition Itinerary Modal */}
       <ExpeditionModal
         expedition={selectedExpedition}
         onClose={() => setSelectedExpedition(null)}

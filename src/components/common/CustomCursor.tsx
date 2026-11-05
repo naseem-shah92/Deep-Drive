@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 
 export const CustomCursor: React.FC = () => {
-  const [position, setPosition] = useState({ x: -100, y: -100 });
-  const [isPointer, setIsPointer] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isPointer, setIsPointer] = useState(false);
   const [isCoarse, setIsCoarse] = useState(false);
 
   const dotRef = useRef<HTMLDivElement>(null);
@@ -14,7 +13,6 @@ export const CustomCursor: React.FC = () => {
   const animFrameId = useRef<number | null>(null);
 
   useEffect(() => {
-    // Detect touch device
     if (window.matchMedia('(pointer: coarse)').matches) {
       setIsCoarse(true);
       return;
@@ -24,7 +22,6 @@ export const CustomCursor: React.FC = () => {
       mousePos.current = { x: e.clientX, y: e.clientY };
       if (!isVisible) setIsVisible(true);
 
-      // Check if cursor is over interactive elements
       const target = e.target as HTMLElement | null;
       if (target) {
         const interactive = target.closest('button, a, input, select, textarea, [role="button"]');
@@ -39,9 +36,8 @@ export const CustomCursor: React.FC = () => {
     document.addEventListener('mouseleave', onMouseLeave);
     document.addEventListener('mouseenter', onMouseEnter);
 
-    // Smooth lerp loop for the outer halo
     const loop = () => {
-      const lerp = 0.18;
+      const lerp = 0.2;
       ringPos.current.x += (mousePos.current.x - ringPos.current.x) * lerp;
       ringPos.current.y += (mousePos.current.y - ringPos.current.y) * lerp;
 
@@ -69,19 +65,17 @@ export const CustomCursor: React.FC = () => {
 
   return (
     <>
-      {/* Central Sharp Bioluminescent Dot */}
       <div
         ref={dotRef}
-        className="fixed top-0 left-0 pointer-events-none z-[9999] w-2 h-2 rounded-full bg-[#00A5B4] shadow-[0_0_10px_#00A5B4]"
+        className="fixed top-0 left-0 pointer-events-none z-[9999] w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]"
         style={{ willChange: 'transform' }}
       />
-      {/* Soft Lagging Beam Ring */}
       <div
         ref={ringRef}
-        className={`fixed top-0 left-0 pointer-events-none z-[9998] rounded-full border border-[#00A5B4]/50 transition-[width,height,background-color] duration-300 ${
+        className={`fixed top-0 left-0 pointer-events-none z-[9998] rounded-full border border-white/30 transition-[width,height,background-color,border-color] duration-300 ${
           isPointer
-            ? 'w-10 h-10 bg-[#00A5B4]/15 border-[#00A5B4] shadow-[0_0_16px_rgba(0,165,180,0.4)]'
-            : 'w-7 h-7 bg-transparent shadow-[0_0_8px_rgba(0,165,180,0.2)]'
+            ? 'w-10 h-10 bg-white/10 border-[#E5C890] scale-110'
+            : 'w-7 h-7 bg-transparent border-white/20'
         }`}
         style={{ willChange: 'transform' }}
       />
